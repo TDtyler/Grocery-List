@@ -68,7 +68,7 @@ header h1 {
 }
 
 .btn:hover {
-  background-color: blue;
+  background-color: red;
 }
 
 .btn-link {
@@ -93,7 +93,7 @@ header h1 {
 }
 
 .btn-clear:hover {
-  background-color: purple;
+  background-color: green;
 }
 
 .text-red {
