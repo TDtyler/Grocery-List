@@ -4,6 +4,11 @@ const itemList = document.getElementById('item-list');
 const clearBtn = document.getElementById('clear');
 const itemFilter = document.getElementById('filter');
 
+function displayItems() {
+    const itemsFromStorage = getItemsFromStorage();
+    itemsFromStorage.forEach(item => addItemToDOM(item));
+    checkUI();
+}
 
 function onAddItemSubmit(e) {
     e.preventDefault();
@@ -39,14 +44,17 @@ function addItemToDOM(item) {
 
 }
 
-function addItemToStorage(item) {
-    let itemsFromStorage;
 
-    if(localStorage.getItem('items') === null) {
-        itemsFromStorage = [];
-    } else {
-        itemsFromStorage = JSON.parse(localStorage.getItem('items'));
-    }
+function createButton(classes) {
+    const button = document.createElement('button');
+    button.className = classes;
+    const icon = createIcon('fa-solid fa-xmark');
+    button.appendChild(icon);
+    return button;
+}
+
+function addItemToStorage(item) {
+    const itemsFromStorage = getItemsFromStorage();
 
     //Add new item to array
     itemsFromStorage.push(item);
@@ -55,12 +63,15 @@ function addItemToStorage(item) {
     localStorage.setItem('items', JSON.stringify(itemsFromStorage));
 }
 
-function createButton(classes) {
-    const button = document.createElement('button');
-    button.className = classes;
-    const icon = createIcon('fa-solid fa-xmark');
-    button.appendChild(icon);
-    return button;
+function getItemsFromStorage() {
+    let itemsFromStorage;
+
+    if(localStorage.getItem('items') === null) {
+        itemsFromStorage = [];
+    } else {
+        itemsFromStorage = JSON.parse(localStorage.getItem('items'));
+    }
+    return itemsFromStorage;
 }
 
 function createIcon(classes) {
@@ -113,10 +124,17 @@ function checkUI() {
     }
 }
 
+// Intitialize 
+function init() {
+
 //Event Listeners
 itemform.addEventListener('submit', onAddItemSubmit);
 itemList.addEventListener('click', removeItem);
 clearBtn.addEventListener('click', clearItems);
 itemFilter.addEventListener('input', filterItems);
+document.addEventListener('DOMContentLoaded', displayItems);
 
 checkUI();
+}
+
+init();
